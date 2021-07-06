@@ -1,4 +1,4 @@
-FROM ubuntu:focal-20210609
+FROM ubuntu:focal-20210609 as base
 RUN apt update && \
   apt install -y gnupg2 && \
   echo 'deb http://ppa.launchpad.net/git-core/ppa/ubuntu focal main ' > /etc/apt/sources.list.d/git.list && \
@@ -6,6 +6,8 @@ RUN apt update && \
   apt update &&  \
   apt install -y curl git zsh && \
   useradd -ms /bin/zsh vscode
+
+FROM base as base-shell
 USER vscode
 RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended && \
   git clone --depth=1 https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting && \
