@@ -1,15 +1,20 @@
 FROM ubuntu:focal-20210609 as base
-RUN apt update && \
+# hadolint ignore=SC1072
+RUN apt-get update && \
   apt install -y gnupg2 && \
   echo 'deb http://ppa.launchpad.net/git-core/ppa/ubuntu focal main ' > /etc/apt/sources.list.d/git.list && \
   apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E1DD270288B4E6030699E45FA1715D88E1DF1F24 && \
   apt update &&  \
   apt install -y curl git zsh && \
-  useradd -ms /bin/zsh vscode
+  useradd -ms /bin/zsh vscode && \
+  && apt-get clean \
+  && rm -rf /var/lib/apt/lists/*
+# hadolint ignore=DL3022
 COPY --from=hadolint/hadolint:2.6.0 /bin/hadolint /usr/bin/
 
 FROM base as base-shell
 USER vscode
+# hadolint ignore=SC2086
 RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended && \
   git clone --depth=1 https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting && \
   git clone --depth=1 https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions && \
