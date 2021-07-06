@@ -1,11 +1,11 @@
 FROM ubuntu:focal-20210609 as base
 # hadolint ignore=SC1072
 RUN apt-get update && \
-  apt install -y gnupg2 && \
+  apt install -y --no-install-recommends gnupg2 && \
   echo 'deb http://ppa.launchpad.net/git-core/ppa/ubuntu focal main ' > /etc/apt/sources.list.d/git.list && \
   apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E1DD270288B4E6030699E45FA1715D88E1DF1F24 && \
-  apt update &&  \
-  apt install -y curl git zsh && \
+  apt-get update &&  \
+  apt-get install -y --no-install-recommends curl git zsh && \
   useradd -ms /bin/zsh vscode && \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
