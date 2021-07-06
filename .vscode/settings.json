@@ -2,4 +2,5 @@
   "editor.tabSize": 2,
   "terminal.integrated.defaultProfile.linux": "zsh",
   "editor.wordWrap": "on",
+  "editor.minimap.enabled": false,
 }
