@@ -6,6 +6,7 @@ RUN apt update && \
   apt update &&  \
   apt install -y curl git zsh && \
   useradd -ms /bin/zsh vscode
+COPY --from=hadolint/hadolint:2.6.0 /bin/hadolint /usr/bin/
 
 FROM base as base-shell
 USER vscode
