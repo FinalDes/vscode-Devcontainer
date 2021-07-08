@@ -10,13 +10,20 @@ RUN apt-get update && \
   focal stable" | tee /etc/apt/sources.list.d/docker.list && \
   apt-get update &&  \
   apt-get install -y --no-install-recommends git zsh docker-ce-cli && \
-  useradd -ms /bin/zsh vscode && \
   apt-get clean && \
   rm -rf /var/lib/apt/lists/*
 # hadolint ignore=DL3022
 COPY --from=hadolint/hadolint:2.6.0 /bin/hadolint /usr/bin/
 
+ARG UID=1000
+ARG GUID=1000
+ARG DOCKER_GUID=1001
+
 FROM base as base-shell
+# hadolint ignore=SC2086
+RUN groupadd -g ${DOCKER_GUID} docker && \ 
+  groupadd -g ${GUID} vscode && \
+  useradd -ms /bin/zsh -l -G docker -u ${UID} -g ${GUID} vscode
 USER vscode
 # hadolint ignore=SC2086
 RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended && \
