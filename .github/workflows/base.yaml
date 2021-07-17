@@ -3,7 +3,7 @@ name: vscode-base-build-container
 on:
   push:
     branches:
-      - master
+      - 'master'
     paths:
       - ".devcontainer/Dockerfile"
       - ".github/workflows/base.yml"
@@ -19,7 +19,7 @@ jobs:
     steps:
       - 
         name: checkout
-        uses: actions/checkoutv2
+        uses: actions/checkout@v2
       - 
         name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
@@ -59,8 +59,9 @@ jobs:
           builder: ${{ steps.buildx.outputs.name }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
-          push: false
           target: base
+          file: .devcontainer/Dockerfile
+          push: false
           tags: ${{ steps.docker_meta.outputs.tags }}
           labels: ${{ steps.docker_meta.outputs.labels }}
           load: true
