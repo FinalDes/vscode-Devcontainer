@@ -3,7 +3,7 @@ name: vscode-base-build-container
 on:
   push:
     branches:
-      - master
+      - 'master'
     paths:
       - ".devcontainer/Dockerfile"
       - ".github/workflows/base.yml"
