@@ -41,7 +41,7 @@ jobs:
             #           bretfisher/docker-github-actions-example
             # ghcr.io/bretfisher/docker-github-actions-example
           images: |
-            finaldes/vscode-devcontainer
+            ${{ secrets.DOCKERHUB_USERNAME }}/vscode-devcontainer
           flavor: |
             latest=false
           tags: |
