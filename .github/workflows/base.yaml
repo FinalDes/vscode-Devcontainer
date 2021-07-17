@@ -9,7 +9,7 @@ on:
       - ".github/workflows/base.yml"
   pull_request:
     branches:
-       - 'master'
+      - 'master'
     paths:
       - ".devcontainer/Dockerfile"
       - ".github/workflows/base.yml"
@@ -43,11 +43,8 @@ jobs:
         id: docker_meta
         uses: docker/metadata-action@v3.3.0
         with:
-          # list of Docker images to use as base name for tags
-            #           bretfisher/docker-github-actions-example
-            # ghcr.io/bretfisher/docker-github-actions-example
           images: |
-            ${{ secrets.DOCKERHUB_USERNAME }}/vscode-devcontainer
+            finaldes/vscode-devcontainer
           flavor: |
             latest=false
           tags: |
