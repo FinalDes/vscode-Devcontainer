@@ -9,7 +9,7 @@ on:
       - ".github/workflows/base.yml"
   pull_request:
     branches:
-       - 'main'
+       - 'master'
     paths:
       - ".devcontainer/Dockerfile"
       - ".github/workflows/base.yml"
