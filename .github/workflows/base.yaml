@@ -5,13 +5,13 @@ on:
     branches:
       - master
     paths:
-      - "./devcontainer/Dockerfile"
+      - ".devcontainer/Dockerfile"
       - ".github/workflows/base.yml"
   pull_request:
     branches:
        - 'main'
     paths:
-      - "./devcontainer/Dockerfile"
+      - ".devcontainer/Dockerfile"
       - ".github/workflows/base.yml"
 jobs:
   build:
