@@ -4,15 +4,15 @@ on:
   push:
     branches:
       - 'master'
-    paths:
-      - '.devcontainer/Dockerfile'
-      - '.github/workflows/base.yml'
+    # paths:
+    #   - '.devcontainer/Dockerfile'
+    #   - '.github/workflows/base.yml'
   pull_request:
     branches:
       - 'master'
-    paths:
-      - ".devcontainer/Dockerfile"
-      - ".github/workflows/base.yml"
+    # paths:
+    #   - ".devcontainer/Dockerfile"
+    #   - ".github/workflows/base.yml"
 jobs:
   build:
     runs-on: ubuntu-20.04
