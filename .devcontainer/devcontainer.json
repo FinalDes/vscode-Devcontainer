@@ -15,7 +15,8 @@
 	"extensions": [
 		"ms-azuretools.vscode-docker",
 		"eamodio.gitlens",
-		"exiasr.hadolint"
+		"exiasr.hadolint",
+		"redhat.vscode-yaml"
 	],
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
