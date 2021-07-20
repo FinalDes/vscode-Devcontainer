@@ -5,7 +5,7 @@ on:
     branches:
       - 'master'
     paths:
-    #   - '.devcontainer/Dockerfile'
+      - .devcontainer/Dockerfile
       - .github/workflows/base.yaml
   pull_request:
     branches:
