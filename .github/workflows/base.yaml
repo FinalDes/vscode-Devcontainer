@@ -61,7 +61,7 @@ jobs:
           cache-to: type=local,dest=/tmp/.buildx-cache-new
           target: base
           file: .devcontainer/Dockerfile
-          push: false
+          push: ${{github.event_name != 'pull_request'}}
           tags: ${{ steps.docker_meta.outputs.tags }}
           labels: ${{ steps.docker_meta.outputs.labels }}
           load: true
