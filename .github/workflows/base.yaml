@@ -51,6 +51,7 @@ jobs:
         uses: docker/metadata-action@v3.3.0
         with:
           images: |
+            ghcr.io/finaldes/vscode-devcontainer
             finaldes/vscode-devcontainer
           flavor: |
             latest=false
