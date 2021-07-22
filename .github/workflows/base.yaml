@@ -48,7 +48,7 @@ jobs:
           flavor: |
             latest=false
           tags: |
-            type=raw,value=latest
+            type=raw,value=base
       -
         # this will build the amd64 image
         name: Docker Build
@@ -64,6 +64,21 @@ jobs:
           tags: ${{ steps.docker_meta.outputs.tags }}
           labels: ${{ steps.docker_meta.outputs.labels }}
           load: true
+      - 
+        name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: 'finaldes/vscode-devcontainer:base'
+          format: 'template'
+          template: '@/contrib/sarif.tpl'
+          output: 'trivy-results.sarif'
+
+      - 
+        name: Upload Trivy scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v1
+        with:
+          sarif_file: 'trivy-results.sarif'
+
       -
         # this will push the amd64 image
         name: Docker Build
