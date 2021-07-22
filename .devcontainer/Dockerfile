@@ -1,6 +1,7 @@
 FROM ubuntu:focal-20210713 as base
 # hadolint ignore=SC1072,DL3008,DL4006
 RUN apt-get update && \
+  apt-get upgrade && \
   apt-get install -y --no-install-recommends gnupg2 curl ca-certificates apt-transport-https openssh-client locales && \
   sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && \
   dpkg-reconfigure --frontend=noninteractive locales && \
