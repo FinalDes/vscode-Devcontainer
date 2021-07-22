@@ -39,8 +39,15 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       -
+        name: Login to GitHub Container Registry
+        uses: docker/login-action@v1 
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      -
         name: Docker meta
-        id: docker_meta
+        id: base_meta
         uses: docker/metadata-action@v3.3.0
         with:
           images: |
@@ -48,6 +55,7 @@ jobs:
           flavor: |
             latest=false
           tags: |
+            type=sha
             type=raw,value=base
       -
         # this will build the amd64 image
@@ -61,8 +69,8 @@ jobs:
           target: base
           file: .devcontainer/Dockerfile
           push: false
-          tags: ${{ steps.docker_meta.outputs.tags }}
-          labels: ${{ steps.docker_meta.outputs.labels }}
+          tags: ${{ steps.base_meta.outputs.tags }}
+          labels: ${{ steps.base_meta.outputs.labels }}
           load: true
       - 
         name: Run Trivy vulnerability scanner
@@ -92,8 +100,8 @@ jobs:
           target: base
           file: .devcontainer/Dockerfile
           push: ${{ github.event_name != 'pull_request'}}
-          tags: ${{ steps.docker_meta.outputs.tags }}
-          labels: ${{ steps.docker_meta.outputs.labels }}
+          tags: ${{ steps.base_meta.outputs.tags }}
+          labels: ${{ steps.base_meta.outputs.labels }}
       -
         # Temp fix
         # https://github.com/docker/build-push-action/issues/252
