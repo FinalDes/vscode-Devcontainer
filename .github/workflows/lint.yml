@@ -59,3 +59,4 @@ jobs:
           # disable specific linters (all enabled by default)
           # we will use hadolint, and not dockerfilelint
           VALIDATE_DOCKERFILE: false
+          VALIDATE_JSON: false
