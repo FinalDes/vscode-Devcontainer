@@ -5,11 +5,14 @@ on:
     branches:
       - 'master'
     paths:
-      - .devcontainer/Dockerfile
+      - base.Dockerfile
       - .github/workflows/base.yaml
   pull_request:
     branches:
       - 'master'
+    paths:
+      - base.Dockerfile
+      - .github/workflows/base.yaml
   workflow_dispatch:
     # paths:
     #   - ".devcontainer/Dockerfile"
