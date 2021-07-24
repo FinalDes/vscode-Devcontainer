@@ -1,8 +1,7 @@
+FROM finaldes/vscode-devcontainer:base as base-shell
 ARG UID=1000
 ARG GUID=1000
 ARG DOCKER_GUID=1001
-
-FROM finaldes/vscode-devcontainer:base as base-shell
 # hadolint ignore=SC2086
 RUN groupadd -g ${DOCKER_GUID} docker && \ 
   groupadd -g ${GUID} vscode && \

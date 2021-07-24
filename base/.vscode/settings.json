@@ -1,0 +1,14 @@
+{
+  "editor.tabSize": 2,
+  "terminal.integrated.defaultProfile.linux": "zsh",
+  "editor.wordWrap": "on",
+  "editor.minimap.enabled": false,
+  "workbench.sideBar.location": "right",
+  "workbench.settings.editor": "json",
+  "breadcrumbs.enabled": false,
+  "yaml.schemas": {
+    "./schemas/githubAction.json": [
+      "./github/workflows/*.yaml"
+    ]
+  },
+}
