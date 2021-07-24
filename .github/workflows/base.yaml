@@ -72,7 +72,7 @@ jobs:
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
           target: base
-          file: .devcontainer/Dockerfile
+          file: base.Dockerfile
           push: false
           tags: ${{ steps.base_meta.outputs.tags }}
           labels: ${{ steps.base_meta.outputs.labels }}
@@ -103,7 +103,7 @@ jobs:
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
           target: base
-          file: .devcontainer/Dockerfile
+          file: base.Dockerfile
           push: ${{ github.event_name != 'pull_request'}}
           tags: ${{ steps.base_meta.outputs.tags }}
           labels: ${{ steps.base_meta.outputs.labels }}
