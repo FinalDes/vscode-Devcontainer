@@ -14,9 +14,6 @@ on:
       - base/Dockerfile
       - .github/workflows/base.yaml
   workflow_dispatch:
-    # paths:
-    #   - ".devcontainer/Dockerfile"
-    #   - ".github/workflows/base.yml"
 jobs:
   build:
     runs-on: ubuntu-20.04
