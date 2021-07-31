@@ -1,3 +1,4 @@
+# syntax=docker/dockerfile:1.3
 FROM ubuntu:focal-20210713 as base
 # hadolint ignore=SC1072,DL3008,DL4006
 RUN apt-get update && \
