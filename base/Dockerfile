@@ -1,5 +1,5 @@
 # syntax = docker/dockerfile:1.3.0
-FROM ubuntu:focal-20210827
+FROM ubuntu:focal-20210827 as base
 ENV ZSH=/home/vscode/.oh-my-zsh
 COPY --chown=root:root init.sh /usr/local/share/ 
 # hadolint ignore==SC1072,DL3008,DL4006
