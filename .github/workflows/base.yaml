@@ -15,7 +15,7 @@ on:
       - .github/workflows/base.yaml
   workflow_dispatch:
 permissions:
-  - packages: write
+  packages: write
 jobs:
   build:
     runs-on: ubuntu-20.04
