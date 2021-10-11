@@ -30,3 +30,4 @@ RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master
   chown -R vscode:vscode ${ZSH}
 COPY --chown=vscode:vscode .zshrc /home/vscode/
 ENTRYPOINT [ "/usr/local/share/init.sh" ]
+CMD [ "bash" ]
