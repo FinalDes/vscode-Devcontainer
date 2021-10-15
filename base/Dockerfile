@@ -1,5 +1,5 @@
 # syntax = docker/dockerfile:1.3.0
-FROM ubuntu:focal-20210827 as base
+FROM ubuntu:focal-20210921 as base
 ENV ZSH=/home/vscode/.oh-my-zsh
 ENV COMPOSE_V1_VERSION=1.29.2
 ENV COMPOSE_V2_VERSION=v2.0.1
