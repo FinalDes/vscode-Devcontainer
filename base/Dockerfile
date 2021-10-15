@@ -1,12 +1,14 @@
 # syntax = docker/dockerfile:1.3.0
 FROM ubuntu:focal-20210827 as base
 ENV ZSH=/home/vscode/.oh-my-zsh
-COPY --chown=root:root init.sh /usr/local/share/ 
-# hadolint ignore==SC1072,DL3008,DL4006
+ENV COMPOSE_V1_VERSION=1.29.2
+ENV COMPOSE_V2_VERSION=v2.0.1
+COPY --chmod=755 --chown=root:root init2.sh /usr/local/bin/ 
+# hadolint ignore==SC1072,DL3022,DL3008,DL4006
 COPY --from=hadolint/hadolint:2.7.0 /bin/hadolint /usr/bin/
 RUN set -eux;\
 	apt-get update; \
-	apt-get install -y gosu apt-transport-https ca-certificates curl gnupg openssh-client locales socat; \
+	apt-get install -y sudo apt-transport-https ca-certificates curl gnupg openssh-client locales socat; \
   sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && \
   dpkg-reconfigure --frontend=noninteractive locales; \
   update-locale LANG=en_US.UTF-8; \
@@ -21,7 +23,15 @@ RUN set -eux;\
   apt-get update; \
   apt-get install -y git git-lfs zsh docker-ce-cli; \
 	rm -rf /var/lib/apt/lists/*; \
-  useradd -ms /bin/zsh vscode;
+  useradd -ms /bin/zsh vscode; \
+  echo 'vscode    ALL=(ALL) NOPASSWD:ALL' > /etc/sudoers.d/vscode; \ 
+  chmod 600 /etc/sudoers.d/vscode; \
+  mkdir -p /home/vscode/.docker/cli-plugins/; \
+  curl -SL "https://github.com/docker/compose/releases/download/${COMPOSE_V2_VERSION}/docker-compose-linux-x86_64" -o /home/vscode/.docker/cli-plugins/docker-compose; \ 
+  curl -L "https://github.com/docker/compose/releases/download/${COMPOSE_V1_VERSION}/docker-compose-Linux-x86_64" -o /usr/local/bin/docker-compose; \
+  chown -R vscode:vscode /home/vscode/.docker; \ 
+  chmod 755 /home/vscode/.docker/cli-plugins/docker-compose; \
+  chmod +x /usr/local/bin/docker-compose;
 # hadolint ignore=SC2086
 RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended; \
   git clone --depth=1 https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH}/plugins/zsh-syntax-highlighting; \
@@ -29,5 +39,5 @@ RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master
   git clone --depth=1 https://github.com/zsh-users/zsh-completions ${ZSH}/custom/plugins/zsh-completions; \
   chown -R vscode:vscode ${ZSH}
 COPY --chown=vscode:vscode .zshrc /home/vscode/
-ENTRYPOINT [ "/usr/local/share/init.sh" ]
-CMD [ "bash" ]
+# ENTRYPOINT [ "/usr/local/bin/init2.sh" ]
+# CMD [ "sleep", "infinity" ]

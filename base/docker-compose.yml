@@ -1,0 +1,7 @@
+services:
+  base:
+    image: finaldes/vscode-devcontainer:base
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: base
