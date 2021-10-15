@@ -57,7 +57,7 @@ jobs:
           flavor: |
             latest=false
           tags: |
-            type=sha
+            type=sha, prefix=base-
             type=raw,value=base
       -
         # this will build the amd64 image
