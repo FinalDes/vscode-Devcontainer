@@ -82,9 +82,9 @@ jobs:
           cache-to: type=local,dest=/tmp/.buildx-cache-new
           context: ./node
           target: node
-          build-args:
-            NODE_VERSION: ${{matrix.NODE_VERSION}}
-            tools: ${{matrix.tools}}     
+          build-args: |
+            NODE_VERSION=${{matrix.NODE_VERSION}}
+            tools=${{matrix.tools}}     
           file: node/Dockerfile
           push: false
           tags: ${{ steps.base_meta.outputs.tags }}
