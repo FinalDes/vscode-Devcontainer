@@ -25,6 +25,8 @@ jobs:
       matrix:
         include:
           - tag: node
+            NODE_VERSION: 16
+            tools: eslint nodemon
           - tag: angular
             NODE_VERSION: 14
             tools: eslint typescript @angular/cli webpack-bundle-analyzer      
