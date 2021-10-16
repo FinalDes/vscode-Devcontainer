@@ -1,11 +1,11 @@
 name: vscode-nodeJS-container
 
 on:
-  workflow_run:
-    workflows: 
-      - "vscode-base-build-container"
-    types: 
-      - completed
+  # workflow_run:
+  #   workflows: 
+  #     - "vscode-base-build-container"
+  #   types: 
+  #     - completed
   push:
     branches:
       - 'master'
@@ -21,6 +21,13 @@ on:
       - .github/workflows/node.yaml  
 jobs:
   build:
+    strategy:
+      matrix:
+        include:
+          - tag: node
+          - tag: angular
+            NODE_VERSION: 14
+            tools: eslint typescript @angular/cli webpack-bundle-analyzer      
     runs-on: ubuntu-20.04
     steps:
       - 
@@ -62,8 +69,8 @@ jobs:
           flavor: |
             latest=false
           tags: |
-            type=sha,prefix=node-
-            type=raw,value=node
+            type=sha,prefix=${{matrix.tag}}-
+            type=raw,value=${{matrix.tag}}
       -
         # this will build the amd64 image
         name: Docker Build
@@ -75,6 +82,9 @@ jobs:
           cache-to: type=local,dest=/tmp/.buildx-cache-new
           context: ./node
           target: node
+          build-args:
+            NODE_VERSION: ${{matrix.NODE_VERSION}}
+            tools: ${{matrix.tools}}     
           file: node/Dockerfile
           push: false
           tags: ${{ steps.base_meta.outputs.tags }}
