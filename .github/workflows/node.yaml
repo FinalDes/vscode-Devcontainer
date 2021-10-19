@@ -29,7 +29,7 @@ jobs:
             tools: eslint nodemon
           - tag: angular
             NODE_VERSION: 14
-            tools: eslint typescript @angular/cli webpack-bundle-analyzer      
+            tools: typescript @angular/cli webpack-bundle-analyzer      
     runs-on: ubuntu-20.04
     continue-on-error: true
     steps:
