@@ -2,10 +2,7 @@
 // https://github.com/microsoft/vscode-dev-containers/tree/v0.183.0/containers/debian
 {
 	"name": "ZSH",
-	"build": {
-	 	"dockerfile": "Dockerfile",
-		 "context": "../../."
-	// 	// Update 'VARIANT' to pick an Debian version: buster, stretch
+	"image": "finaldes/vscode-devcontainer:node",
 	},
 
 	// Set *default* container specific settings.json values on container create.

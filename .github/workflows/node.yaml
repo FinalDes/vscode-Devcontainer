@@ -1,0 +1,135 @@
+name: vscode-nodeJS-container
+
+on:
+  # workflow_run:
+  #   workflows: 
+  #     - "vscode-base-build-container"
+  #   types: 
+  #     - completed
+  push:
+    branches:
+      - 'master'
+      - 'node'
+    paths:
+      - node/Dockerfile
+      - .github/workflows/node.yaml  
+  pull_request:
+    branches:
+      - 'master'
+    paths:
+      - node/Dockerfile
+      - .github/workflows/node.yaml  
+jobs:
+  build:
+    strategy:
+      matrix:
+        include:
+          - tag: node
+            NODE_VERSION: 16
+            tools: eslint nodemon
+          - tag: angular
+            NODE_VERSION: 14
+            tools: typescript @angular/cli webpack-bundle-analyzer      
+    runs-on: ubuntu-20.04
+    continue-on-error: true
+    steps:
+      - 
+        name: checkout
+        uses: actions/checkout@v2
+      - 
+        name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      -
+        name: Cache Docker layers
+        uses: actions/cache@v2.1.6
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-buildx-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-
+      -
+        name: Login to DockerHub
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@v1 
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      -
+        name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      -
+        name: Docker meta
+        id: base_meta
+        uses: docker/metadata-action@v3.5.0
+        with:
+          images: |
+            finaldes/vscode-devcontainer
+            ghcr.io/finaldes/vscode-devcontainer
+          flavor: |
+            latest=false
+          tags: |
+            type=sha,prefix=${{matrix.tag}}-
+            type=raw,value=${{matrix.tag}}
+      -
+        # this will build the amd64 image
+        name: Docker Build
+        uses: docker/build-push-action@v2.7.0
+        with:
+          platforms: linux/amd64
+          builder: ${{ steps.buildx.outputs.name }}
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache-new
+          context: ./node
+          target: node
+          build-args: |
+            NODE_VERSION=${{matrix.NODE_VERSION}}
+            tools=${{matrix.tools}}     
+          file: node/Dockerfile
+          push: false
+          tags: ${{ steps.base_meta.outputs.tags }}
+          labels: ${{ steps.base_meta.outputs.labels }}
+          load: true
+      - 
+        name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: 'finaldes/vscode-devcontainer:node'
+          format: 'template'
+          template: '@/contrib/sarif.tpl'
+          output: 'trivy-results.sarif'
+      - 
+        name: Upload Trivy scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v1
+        with:
+          sarif_file: 'trivy-results.sarif'
+      -
+        # this will push the amd64 image
+        name: Docker Build
+        id: docker_build
+        uses: docker/build-push-action@v2.7.0
+        with:
+          platforms: linux/amd64
+          builder: ${{ steps.buildx.outputs.name }}
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache-new
+          context: ./node
+          target: node
+          file: node/Dockerfile
+          push: ${{ github.event_name != 'pull_request'}}
+          tags: ${{ steps.base_meta.outputs.tags }}
+          labels: ${{ steps.base_meta.outputs.labels }}
+      -
+        # Temp fix
+        # https://github.com/docker/build-push-action/issues/252
+        # https://github.com/moby/buildkit/issues/1896
+        name: Move cache
+        run: |
+          rm -rf /tmp/.buildx-cache
+          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
+      -
+        name: Show image digest
+        run: echo ${{ steps.docker_build_and_push.outputs.digest }}
