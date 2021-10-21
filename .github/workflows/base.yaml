@@ -6,6 +6,7 @@ on:
       - 'master'
     paths:
       - base/Dockerfile
+      - base/.zshrc
       - .github/workflows/base.yaml
   pull_request:
     branches:
