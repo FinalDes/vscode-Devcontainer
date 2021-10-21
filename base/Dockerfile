@@ -5,8 +5,9 @@ ARG COMPOSE_V2_VERSION=v2.0.1
 ARG USERNAME=vscode
 ENV ZSH=/home/vscode/.oh-my-zsh
 COPY --chmod=755 --chown=root:root init2.sh /usr/local/bin/ 
-# hadolint ignore==SC1072,DL3022,DL3008,DL4006
+# hadolint ignore=DL3022
 COPY --from=hadolint/hadolint:2.7.0 /bin/hadolint /usr/bin/
+# hadolint ignore=DL3008,DL3015,DL4006
 RUN set -eux;\
 	apt-get update; \
 	apt-get install -y sudo apt-transport-https ca-certificates curl gnupg openssh-client locales socat; \
