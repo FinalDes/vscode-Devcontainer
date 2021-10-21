@@ -14,4 +14,5 @@ RUN curl -fsSL https://deb.nodesource.com/gpgkey/nodesource.gpg.key | gpg --dear
   rm -rf /var/lib/apt/lists/
 
 FROM node-base as node
-RUN npm -g install ${tools};\
+# hadolint ignore=SC1072,SC2086,DL3016
+RUN npm -g install ${tools};
