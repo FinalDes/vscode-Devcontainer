@@ -29,4 +29,5 @@ jobs:
           VALIDATE_DOCKERFILE: false
           VALIDATE_JSON: false
           VALIDATE_BASH: false
+          VALIDATE_JSCPD: false
           VALIDATE_BASH_EXEC: false
