@@ -7,6 +7,7 @@ services:
       VALIDATE_BASH_EXEC: false
       VALIDATE_DOCKERFILE: false
       VALIDATE_JSCPD: false
+      VALIDATE_EDITORCONFIG: false
       RUN_LOCAL: true
       jscpd: false
     volumes:

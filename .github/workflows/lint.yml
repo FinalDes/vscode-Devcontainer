@@ -8,7 +8,7 @@ on:
   pull_request:
     branches: 
       - master
-      
+
 permissions:
   actions: none
   checks:  none             #add custom pass/fail checks to the PR
@@ -42,4 +42,5 @@ jobs:
           VALIDATE_JSON: false
           VALIDATE_BASH: false
           VALIDATE_JSCPD: false
+          VALIDATE_EDITORCONFIG: false
           VALIDATE_BASH_EXEC: false
