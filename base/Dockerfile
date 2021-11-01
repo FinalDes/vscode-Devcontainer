@@ -2,9 +2,11 @@
 FROM ubuntu:focal-20211006 as base
 ENV COMPOSE_V1_VERSION=1.29.2
 ARG COMPOSE_V2_VERSION=v2.0.1
+ARG ACTION_LINT_VERSION=1.6.6
 ARG USERNAME=vscode
 ENV ZSH=/home/vscode/.oh-my-zsh
 COPY --chmod=755 --chown=root:root init2.sh /usr/local/bin/ 
+
 # hadolint ignore=DL3022
 COPY --from=hadolint/hadolint:2.7.0 /bin/hadolint /usr/bin/
 # hadolint ignore=DL3008,DL3015,DL4006
@@ -34,6 +36,9 @@ RUN set -eux;\
   chown -R vscode:vscode /home/vscode/.docker; \ 
   chmod 755 /home/vscode/.docker/cli-plugins/docker-compose; \
   chmod +x /usr/local/bin/docker-compose; \
+  curl -L https://github.com/rhysd/actionlint/releases/download/v${ACTION_LINT_VERSION}/actionlint_${ACTION_LINT_VERSION}_linux_amd64.tar.gz | tar xvz actionlint; \
+  chmod 755 actionlint; \
+  mv actionlint /usr/local/bin/; \
   mkdir /home/${USERNAME}/.vscode-server/ \ 
     /home/${USERNAME}/.vscode-server/extensions \
     /home/${USERNAME}/.vscode-server-insiders/ \
