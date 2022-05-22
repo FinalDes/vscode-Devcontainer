@@ -1,14 +1,14 @@
 # syntax = docker/dockerfile:1.3.0
 FROM ubuntu:focal-20211006 as base
 ENV COMPOSE_V1_VERSION=1.29.2
-ARG COMPOSE_V2_VERSION=v2.0.1
-ARG ACTION_LINT_VERSION=1.6.6
+ARG COMPOSE_V2_VERSION=2.5.1
+ARG ACTION_LINT_VERSION=1.6.13 
 ARG USERNAME=vscode
 ENV ZSH=/home/vscode/.oh-my-zsh
 COPY --chmod=755 --chown=root:root init2.sh /usr/local/bin/ 
 
 # hadolint ignore=DL3022
-COPY --from=hadolint/hadolint:2.7.0 /bin/hadolint /usr/bin/
+COPY --from=hadolint/hadolint:2.10.0 /bin/hadolint /usr/bin/
 # hadolint ignore=DL3008,DL3015,DL4006
 RUN set -eux;\
 	apt-get update; \
@@ -31,7 +31,7 @@ RUN set -eux;\
   echo 'vscode    ALL=(ALL) NOPASSWD:ALL' > /etc/sudoers.d/vscode; \ 
   chmod 600 /etc/sudoers.d/vscode; \
   mkdir -p /home/vscode/.docker/cli-plugins/; \
-  curl -SL "https://github.com/docker/compose/releases/download/${COMPOSE_V2_VERSION}/docker-compose-linux-x86_64" -o /home/vscode/.docker/cli-plugins/docker-compose; \ 
+  curl -SL "https://github.com/docker/compose/releases/download/v${COMPOSE_V2_VERSION}/docker-compose-linux-x86_64" -o /home/vscode/.docker/cli-plugins/docker-compose; \ 
   curl -L "https://github.com/docker/compose/releases/download/${COMPOSE_V1_VERSION}/docker-compose-Linux-x86_64" -o /usr/local/bin/docker-compose; \
   chown -R vscode:vscode /home/vscode/.docker; \ 
   chmod 755 /home/vscode/.docker/cli-plugins/docker-compose; \
