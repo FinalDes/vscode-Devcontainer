@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1.3
-FROM finaldes/vscode-devcontainer:base-f371689 as node-base
+FROM finaldes/vscode-devcontainer:base-5deb657 as node-base
 ARG NODE_VERSION=16
 ARG tools="eslint nodemon"
 ENV DEBIAN_FRONTEND=noninteractive
