@@ -48,7 +48,7 @@ RUN set -eux;\
         /home/${USERNAME}/.vscode-server-insiders;
 # hadolint ignore=SC2086
 RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended; \
-  git clone --depth=1 https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH}/plugins/zsh-syntax-highlighting; \
+  git clone --depth=1 https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH}/custom/plugins/zsh-syntax-highlighting; \
   git clone --depth=1 https://github.com/zsh-users/zsh-autosuggestions ${ZSH}/custom/plugins/zsh-autosuggestions; \
   git clone --depth=1 https://github.com/zsh-users/zsh-completions ${ZSH}/custom/plugins/zsh-completions; \
   chown -R ${USERNAME}:${USERNAME} ${ZSH}
