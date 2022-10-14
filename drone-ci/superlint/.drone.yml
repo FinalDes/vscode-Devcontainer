@@ -1,0 +1,24 @@
+---
+kind: pipeline
+type: docker
+name: lint-task
+
+steps:
+- name: lint-task
+  image: github/super-linter
+  environment:
+    VALIDATE_JSON: false
+    VALIDATE_BASH: false
+    VALIDATE_BASH_EXEC: false
+    VALIDATE_DOCKERFILE: false
+    VALIDATE_JSCPD: false
+    VALIDATE_EDITORCONFIG: false
+    RUN_LOCAL: true
+    jscpd: false
+  volumes:
+  - name: lint
+    path: /tmp/lint
+volumes:
+- name: lint
+  host:
+    path: /Users/alex/project/vscode-Devcontainer

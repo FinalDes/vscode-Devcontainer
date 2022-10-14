@@ -1,0 +1,11 @@
+---
+kind: pipeline
+type: docker
+name: hello-world
+
+steps:
+- name: hello-world
+  image: ubuntu
+  commands:
+    - echo hi
+    - echo "hello world"
