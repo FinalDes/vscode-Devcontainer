@@ -1,3 +1,4 @@
+---
 services:
   lint:
     image: github/super-linter
@@ -11,6 +12,6 @@ services:
       RUN_LOCAL: true
       jscpd: false
     volumes:
-    - type: bind
-      source: .
-      target: /tmp/lint
+      - type: bind
+        source: .
+        target: /tmp/lint
