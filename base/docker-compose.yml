@@ -1,3 +1,4 @@
+---
 services:
   base:
     image: finaldes/vscode-devcontainer:base
